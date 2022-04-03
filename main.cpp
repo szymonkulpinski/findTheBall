@@ -7,8 +7,10 @@ using namespace cv;
 
 
 int main(int, char**) {
+    cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
-    // TODO: Read automatically from directory  
+    // Get Files
+    // TODO: Read automatically from directory, boost or C++17 needed
     std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
     std::vector<std::string> fileList;
     fileList.push_back("IMG_1354.jpg");
@@ -29,15 +31,11 @@ int main(int, char**) {
     int vmin = 1, vmax = 203;
     cv::Scalar lower (hmin, smin, vmin);
     cv::Scalar upper (hmax, smax, vmax);
-    cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
-    // std::string figureNameA = (std::string) "Preview" + std::to_string(i);
-    // cv::String figureName = (cv::String) figureNameA;
+
+    // Create Window
     cv::String figureName = "Preview";
-    // namedWindow(figureName, WINDOW_FULLSCREEN);
-    // namedWindow(figureName, WINDOW_AUTOSIZE);
     namedWindow(figureName, WINDOW_NORMAL);
-    // namedWindow(figureName, WINDOW_KEEPRATIO);
     resizeWindow(figureName, 600,600);
 
 
@@ -53,10 +51,8 @@ int main(int, char**) {
 
 
         // Thresholding
-
         inRange(imageHSV, lower, upper, outputImage);
         cv::erode(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(5, 5)));
-        // cv::erode(eroded, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
         cv::dilate(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(10, 10)));
         std::vector<std::vector<cv::Point>> contours;
         findContours(outputImage,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
@@ -68,15 +64,18 @@ int main(int, char**) {
         std::vector<std::vector<cv::Point>> contoursPoly (contours.size());
         cv::String textPostion;
         for (int i = 0; i < contours.size(); i++){
-                    approxPolyDP( contours[i], contoursPoly[i], 3, true );
+                    approxPolyDP( contours[i], contoursPoly[i], 3, true);
                     int area = contourArea(contours[i]);
-                    if (area < 50000) continue; // 234016 100000
-                    std::cout << "Area: " << area << std::endl;
+                    if (area < 50000) continue; 
                     int areaPoly = contourArea(contoursPoly[i]);
+
+                    // Debugging 
+                    std::cout << "Area: " << area << std::endl;
                     std::cout << "areaPoly: " << areaPoly << std::endl;
+
+                    // Draw on image
                     minEnclosingCircle( contoursPoly[i], centers[i], radius[i] );
                     circle( image_copy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3 );
-                    // std::string figureNameA = (std::string) "Preview" + std::to_string(i);
                     textPostion = (cv::String) ((std::string)"Ball center: " + std::to_string((int)centers[i].x) + (std::string)", " + std::to_string((int)centers[i].y)); // TODO: pretify
                     putText(image_copy, textPostion, Point(40,40), FONT_HERSHEY_PLAIN, 3, Scalar(255, 255, 0),3);
                     line(image_copy, Point(centers[i].x-20,centers[i].y), Point(centers[i].x+20,centers[i].y),Scalar(255, 255, 0),3);
@@ -87,14 +86,13 @@ int main(int, char**) {
 
 
 
-        // Combine images
+        // Combine images and print
         cvtColor(outputImage, outputImage, COLOR_GRAY2BGR);
         std::vector<cv::Mat> matrices = {src, image_copy};
         cv::hconcat( matrices, mask );
         cv::imshow(figureName, mask);
         cv::waitKey(0);
-        // cv::destroyAllWindows();
-    // }
+
     }
     return 0;
 }
