@@ -60,19 +60,15 @@ int main(int, char **)
         cv::String textPostion;
         for (int i = 0; i < contours.size(); i++)
         {   
-            // Get smoothed area 
-            approxPolyDP(contours[i], contoursPoly[i], 3, true);
+            // Filter out too small objects (noise)
             int area = contourArea(contours[i]);
             if (area < 50000)
                 continue;
-            int areaPoly = contourArea(contoursPoly[i]);
 
             // Debugging
-            std::cout << "Area: " << area << std::endl;
-            std::cout << "areaPoly: " << areaPoly << std::endl;
+            // std::cout << "Area: " << area << std::endl;
 
             // Draw on image
-            // minEnclosingCircle(contoursPoly[i], centers[i], radius[i]);
             minEnclosingCircle(contours[i], centers[i], radius[i]);
             circle(image_copy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3);
             textPostion = (cv::String)((std::string) "Ball center: " + std::to_string((int)centers[i].x) + (std::string) ", " + std::to_string((int)centers[i].y)); // TODO: pretify
