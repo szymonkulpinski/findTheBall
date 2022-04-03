@@ -1,7 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include <filesystem>
-#include <unistd.h>
+
 
 void getDescription(std::string *textPostion, cv::Point2f *centers)
 {
@@ -18,7 +17,7 @@ int main(int, char **)
 
     // Get Files
     // TODO: Read automatically from directory use boost or C++17
-    std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
+    std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/images/test/";
     std::vector<std::string> fileList;
     fileList.push_back("IMG_1354.jpg");
     fileList.push_back("IMG_1355.jpg");
