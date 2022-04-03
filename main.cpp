@@ -28,7 +28,7 @@ int main(int, char**) {
         /* code */
     
     
-
+    // int i = 10;
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
     cv::String imagePath = folderPath + fileList[i];
@@ -42,8 +42,11 @@ int main(int, char**) {
 
 
     int hmin = 0, hmax = 12; 
-    int smin = 65, smax = 203;
+    int smin = 126, smax = 255;
     int vmin = 1, vmax = 203;
+
+    // lower[6, 126, 1, 0]
+    // upper[11, 255, 255, 0]
 
     // int hmin = 0, hmax = 13; 
     // int smin = 65, smax = 203;
@@ -66,7 +69,7 @@ int main(int, char**) {
     createTrackbar("Value Min", figureName, &vmin, 255);
     createTrackbar("Value Max", figureName, &vmax, 255);
 
-    // while(true){
+// while(true){
 
         // Thresholding
         cv::Scalar lower (hmin, smin, vmin);
@@ -90,7 +93,7 @@ int main(int, char**) {
         for (int i = 0; i < contours.size(); i++){
                     approxPolyDP( contours[i], contoursPoly[i], 3, true );
                     int area = contourArea(contours[i]);
-                    if (area < 10000) continue; // 234016 100000
+                    if (area < 50000) continue; // 234016 100000
                     std::cout << "Area: " << area << std::endl;
                     int areaPoly = contourArea(contoursPoly[i]);
                     std::cout << "areaPoly: " << areaPoly << std::endl;
@@ -107,7 +110,7 @@ int main(int, char**) {
         // cvtColor(eroded, eroded, COLOR_GRAY2BGR);
         // cvtColor(dilated, dilated, COLOR_GRAY2BGR);
         // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
-        std::vector<cv::Mat> matrices = {src, image_copy, outputImage};
+        std::vector<cv::Mat> matrices = {image_copy, outputImage};
         cv::hconcat( matrices, mask );
 
         cv::imshow(figureName, mask);
