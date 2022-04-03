@@ -27,6 +27,8 @@ int main(int, char**) {
     int hmin = 0, hmax = 12; 
     int smin = 126, smax = 255;
     int vmin = 1, vmax = 203;
+    cv::Scalar lower (hmin, smin, vmin);
+    cv::Scalar upper (hmax, smax, vmax);
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
     // std::string figureNameA = (std::string) "Preview" + std::to_string(i);
@@ -49,39 +51,17 @@ int main(int, char**) {
     GaussianBlur(src,blured, Size(11, 11), 11, 11);
     cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
 
-    // if (src.size().width < src.size().height)
-    // {
-    // }
-    
-
-
-
-
-
-    // createTrackbar("Hue Min", figureName, &hmin, 255);
-    // createTrackbar("Hue Max", figureName, &hmax, 255);
-    // createTrackbar("Saturation Min", figureName, &smin, 255);
-    // createTrackbar("Saturation Max", figureName, &smax, 255);
-    // createTrackbar("Value Min", figureName, &vmin, 255);
-    // createTrackbar("Value Max", figureName, &vmax, 255);
-
-// while(true){
 
         // Thresholding
-        cv::Scalar lower (hmin, smin, vmin);
-        cv::Scalar upper (hmax, smax, vmax);
-        std::cout << "lower" << lower <<  std::endl;
-        std::cout << "upper" << upper << std::endl;
+
         inRange(imageHSV, lower, upper, outputImage);
         cv::erode(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(5, 5)));
         // cv::erode(eroded, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
         cv::dilate(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(10, 10)));
         std::vector<std::vector<cv::Point>> contours;
         findContours(outputImage,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-        // getContours(contours, cv::RETR_EXTERNAL);
 
         Mat image_copy = src.clone();
-        // drawContours(image_copy, contours, -1, Scalar(0, 255, 0), 2);
 
         std::vector<cv::Point2f>centers(contours.size());
         std::vector<float>radius(contours.size());
@@ -109,13 +89,8 @@ int main(int, char**) {
 
         // Combine images
         cvtColor(outputImage, outputImage, COLOR_GRAY2BGR);
-        // cvtColor(eroded, eroded, COLOR_GRAY2BGR);
-        // cvtColor(dilated, dilated, COLOR_GRAY2BGR);
-        // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
-        std::vector<cv::Mat> matrices = {image_copy, outputImage};
+        std::vector<cv::Mat> matrices = {src, image_copy};
         cv::hconcat( matrices, mask );
-        // resizeWindow(figureName, (int) mask.size().width/2, (int) mask.size().height);
-
         cv::imshow(figureName, mask);
         cv::waitKey(0);
         // cv::destroyAllWindows();
