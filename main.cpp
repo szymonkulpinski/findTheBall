@@ -40,7 +40,7 @@ namespace fs = boost::filesystem;
 
 void get_file_list(const std::string& path, std::vector<std::string> *m_file_list)
 {   
-    std::vector<std::string> m_file_list;
+    // std::vector<std::string> m_file_list;
     if (!path.empty())
     {
 
@@ -51,14 +51,18 @@ void get_file_list(const std::string& path, std::vector<std::string> *m_file_lis
         {
             const fs::path cp = (*i);
             (*m_file_list).push_back(cp.string());
+            std::cout<< cp.string()<< std::endl;
         }
     }
 }
 
 int main(int, char**) {
-    //     std::string path = "/path/to/directory";
+    const std::string path = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
     // for (const auto & entry : fs::directory_iterator(path))
     //     std::cout << entry.path() << std::endl;
+    std::vector<std::string> m_file_list;
+
+    get_file_list(path, &m_file_list);
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
     cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
