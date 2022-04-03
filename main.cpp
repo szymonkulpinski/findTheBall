@@ -44,6 +44,24 @@ int main(int, char**) {
         // cv::erode(outputImage, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
         // cv::erode(eroded, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
         cv::dilate(outputImage, dilated, getStructuringElement(MORPH_RECT, Size(10, 10)));
+        std::vector<std::vector<cv::Point>> contours;
+        findContours(dilated,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+        // getContours(contours, cv::RETR_EXTERNAL);
+
+        Mat image_copy = src.clone();
+        // drawContours(image_copy, contours, -1, Scalar(0, 255, 0), 2);
+
+        std::vector<cv::Point2f>centers(contours.size());
+        std::vector<float>radius(contours.size());
+        std::vector<std::vector<cv::Point>> contoursPoly (contours.size());
+        for (int i = 0; i < contours.size(); i++){
+                    approxPolyDP( contours[i], contoursPoly[i], 3, true );
+                    minEnclosingCircle( contoursPoly[i], centers[i], radius[i] );
+                    circle( image_copy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3 );
+        }
+
+
+
 
 
         // Combine images
@@ -51,7 +69,7 @@ int main(int, char**) {
         // cvtColor(eroded, eroded, COLOR_GRAY2BGR);
         cvtColor(dilated, dilated, COLOR_GRAY2BGR);
         // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
-        std::vector<cv::Mat> matrices = {src, outputImage, dilated};
+        std::vector<cv::Mat> matrices = {src, image_copy, dilated};
         cv::hconcat( matrices, mask );
 
         cv::imshow(figureName, mask);
