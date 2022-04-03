@@ -22,7 +22,8 @@ int main(int, char**) {
     fileList.push_back("IMG_1362.jpg");
     fileList.push_back("IMG_1363.jpg");
     fileList.push_back("IMG_1364.jpg");
-
+    // std:: cout << __cplusplus << std::endl;
+    // std:: cout << "CPP_version" << std::endl; // C++11
     for (int i = 0; i < fileList.size(); i++)
     {
         /* code */
