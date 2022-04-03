@@ -25,7 +25,7 @@ int main(int, char**) {
     // upper[13, 203, 203, 0]
 
     cv::String figureName = "Preview";
-    namedWindow(figureName);
+    namedWindow(figureName, WINDOW_FULLSCREEN);
     createTrackbar("Hue Min", figureName, &hmin, 255);
     createTrackbar("Hue Max", figureName, &hmax, 255);
     createTrackbar("Saturation Min", figureName, &smin, 255);
@@ -41,11 +41,17 @@ int main(int, char**) {
         std::cout << "lower" << lower <<  std::endl;
         std::cout << "upper" << upper << std::endl;
         inRange(imageHSV, lower, upper, outputImage);
-        cv::erode(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(5, 5)));
+        // cv::erode(outputImage, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
+        // cv::erode(eroded, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
+        cv::dilate(outputImage, dilated, getStructuringElement(MORPH_RECT, Size(10, 10)));
+
 
         // Combine images
-        cvtColor(outputImage, outputImageShow, COLOR_GRAY2BGR);
-        std::vector<cv::Mat> matrices = {src, blured, outputImageShow};
+        cvtColor(outputImage, outputImage, COLOR_GRAY2BGR);
+        // cvtColor(eroded, eroded, COLOR_GRAY2BGR);
+        cvtColor(dilated, dilated, COLOR_GRAY2BGR);
+        // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
+        std::vector<cv::Mat> matrices = {src, outputImage, dilated};
         cv::hconcat( matrices, mask );
 
         cv::imshow(figureName, mask);
