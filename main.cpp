@@ -2,15 +2,6 @@
 #include <opencv2/opencv.hpp>
 using namespace cv; 
 
-void combineHorizontally(Mat matSrc, Mat matGray){
-    Mat matDst(Size(matSrc.cols*2,matSrc.rows),matSrc.type(),Scalar::all(0));
-    Mat matRoi = matDst(Rect(0,0,matSrc.cols,matSrc.rows));
-    matSrc.copyTo(matRoi);
-    matRoi = matDst(Rect(matSrc.cols,0,matSrc.cols,matSrc.rows));
-    matGray.copyTo(matRoi);
-    imshow("result", matSrc);
-}
-
 
 int main(int, char**) {
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/usa.jpeg";
@@ -61,30 +52,20 @@ int main(int, char**) {
         std::cout << "lower" << lower <<  std::endl;
         std::cout << "upper" << upper << std::endl;
 
-        // 
-        // lower[7, 48, 102, 0]
-        // upper[71, 158, 255, 0]
-
         inRange(image, lower, upper, outputImage);
 
-        // image.convertTo(image, CV_8U, 1, 0);
         cvtColor(outputImage, image3, COLOR_GRAY2BGR);
-        
-
-        std::cout  << image.type() << std::endl;
-        std::cout  << outputImage.type()  << std::endl;
-        std::cout  << image3.type()  << std::endl;
-
+    
 
 
         std::vector<cv::Mat> matrices = {image, image3};
         cv::hconcat( matrices, mask );
 
-        cv::imshow("mask",mask);
+        cv::imshow("Trackbars",mask);
         // combineHorizontally(image, outputImage);
         // cv::imshow("imageHSV", imageHSV);
-        cv::imshow("image", image);
-        cv::imshow("outputImage", outputImage);
+        // cv::imshow("image", image);
+        // cv::imshow("outputImage", outputImage);
         cv::waitKey(0);
     }
     return 0;
