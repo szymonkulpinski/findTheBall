@@ -4,57 +4,8 @@
 #include <filesystem>
 #include "boost/filesystem.hpp"
 using namespace cv; 
-// using namespace boost; 
-// namespace fs = std::filesystem;
-// namespace fs = std::experimental::filesystem;
-// using namespace boost::filesystem;
-namespace fs = boost::filesystem;
 
 
-
-
-// bool find_file(const path & dir_path,         // in this directory,
-//                const std::string & file_name, // search for this name,
-//                path & path_found)             // placing path here if found
-// {
-//     if (!exists(dir_path)) 
-//         return false;
-
-//     directory_iterator end_itr; // default construction yields past-the-end
-
-//     for (directory_iterator itr(dir_path); itr != end_itr; ++itr)
-//     {
-//         if (is_directory(itr->status()))
-//         {
-//             if (find_file(itr->path(), file_name, path_found)) 
-//                 return true;
-//         }
-//         else if (itr->leaf() == file_name) // see below
-//         {
-//             path_found = itr->path();
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-
-void get_file_list(const std::string& path, std::vector<std::string> *m_file_list)
-{   
-    // std::vector<std::string> m_file_list;
-    if (!path.empty())
-    {
-
-        fs::path apk_path(path);
-        fs::recursive_directory_iterator end;
-
-        for (fs::recursive_directory_iterator i(apk_path); i != end; ++i)
-        {
-            const fs::path cp = (*i);
-            (*m_file_list).push_back(cp.string());
-            std::cout<< cp.string()<< std::endl;
-        }
-    }
-}
 
 int main(int, char**) {
     const std::string path = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
@@ -62,7 +13,6 @@ int main(int, char**) {
     //     std::cout << entry.path() << std::endl;
     std::vector<std::string> m_file_list;
 
-    get_file_list(path, &m_file_list);
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
     cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;

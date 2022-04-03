@@ -5,13 +5,12 @@ include(CTest)
 enable_testing()
 
 find_package(OpenCV REQUIRED)
-find_package(Boost REQUIRED)
-include_directories( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} )
+include_directories( ${OpenCV_INCLUDE_DIRS}  )
 
 
 
 add_executable(findTheBall main.cpp)
-target_link_libraries(findTheBall  ${OpenCV_LIBS} ${Boost_LIBS})
+target_link_libraries(findTheBall  ${OpenCV_LIBS})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
