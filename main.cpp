@@ -2,9 +2,8 @@
 #include <iostream>
 #include <filesystem>
 #include <unistd.h>
-using namespace cv;
 
-void getText(std::string *textPostion, cv::Point2f *centers)
+void getDescription(std::string *textPostion, cv::Point2f *centers)
 {
     std::string temp = static_cast<std::string>("Ball center: ") +
                        std::to_string(static_cast<int>((*centers).x)) +
@@ -35,8 +34,8 @@ int main(int, char **)
 
     // Create Window
     cv::String figureName = "Preview";
-    namedWindow(figureName, WINDOW_NORMAL);
-    resizeWindow(figureName, 600, 600);
+    cv::namedWindow(figureName, cv::WINDOW_NORMAL);
+    cv::resizeWindow(figureName, 600, 600);
 
     int hmin = 0, hmax = 12; // TODO: what's the best practice: header files, oustisde of main as params?
     int smin = 126, smax = 255;
@@ -56,13 +55,13 @@ int main(int, char **)
         srcCopy = src.clone();
 
         // Get contours
-        GaussianBlur(src, blured, Size(11, 11), 11, 11);
+        GaussianBlur(src, blured, cv::Size(11, 11), 11, 11);
         cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
         inRange(imageHSV, lower, upper, mask);
-        cv::erode(mask, mask, getStructuringElement(MORPH_RECT, Size(5, 5)));
-        cv::dilate(mask, mask, getStructuringElement(MORPH_RECT, Size(10, 10)));
+        cv::erode(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5)));
+        cv::dilate(mask, mask, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10)));
         findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-        std::vector<cv::Point2f> centers(contours.size()); // inits in each loop but with correct size, no need to recopy
+        std::vector<cv::Point2f> centers(contours.size()); // inits in each loop but with correct size, no need to recopy the array
         std::vector<float> radius(contours.size());
 
         for (int i = 0; i < contours.size(); i++)
@@ -72,17 +71,13 @@ int main(int, char **)
             if (area < 50000)
                 continue;
 
-            // Debugging
-            // std::cout << "Area: " << area << std::endl;
-
             // Draw on image
-            minEnclosingCircle(contours[i], centers[i], radius[i]);
-            circle(srcCopy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3);
-            // textPostion = (cv::String)((std::string) "Ball center: " + std::to_string((int)centers[i].x) + (std::string) ", " + std::to_string((int)centers[i].y)); // TODO: pretify
-            getText(&textPostion, &centers[i]);
-            putText(srcCopy, textPostion, Point(40, 40), FONT_HERSHEY_PLAIN, 3, Scalar(255, 255, 0), 3);
-            line(srcCopy, Point(centers[i].x - 20, centers[i].y), Point(centers[i].x + 20, centers[i].y), Scalar(255, 255, 0), 3);
-            line(srcCopy, Point(centers[i].x, centers[i].y - 20), Point(centers[i].x, centers[i].y + 20), Scalar(255, 255, 0), 3);
+            cv::minEnclosingCircle(contours[i], centers[i], radius[i]);
+            cv::circle(srcCopy, centers[i], (int)radius[i], cv::Scalar(0, 255, 0), 3);
+            getDescription(&textPostion, &centers[i]);
+            cv::putText(srcCopy, textPostion, cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
+            cv::line(srcCopy, cv::Point(centers[i].x - 20, centers[i].y), cv::Point(centers[i].x + 20, centers[i].y), cv::Scalar(255, 255, 0), 3);
+            cv::line(srcCopy, cv::Point(centers[i].x, centers[i].y - 20), cv::Point(centers[i].x, centers[i].y + 20), cv::Scalar(255, 255, 0), 3);
         }
         contours.clear();
 
