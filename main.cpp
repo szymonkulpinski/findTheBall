@@ -47,11 +47,11 @@ int main(int, char**) {
         std::cout << "lower" << lower <<  std::endl;
         std::cout << "upper" << upper << std::endl;
         inRange(imageHSV, lower, upper, outputImage);
-        // cv::erode(outputImage, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
+        cv::erode(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(5, 5)));
         // cv::erode(eroded, eroded, getStructuringElement(MORPH_RECT, Size(5, 5)));
-        cv::dilate(outputImage, dilated, getStructuringElement(MORPH_RECT, Size(10, 10)));
+        cv::dilate(outputImage, outputImage, getStructuringElement(MORPH_RECT, Size(10, 10)));
         std::vector<std::vector<cv::Point>> contours;
-        findContours(dilated,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+        findContours(outputImage,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
         // getContours(contours, cv::RETR_EXTERNAL);
 
         Mat image_copy = src.clone();
@@ -63,7 +63,7 @@ int main(int, char**) {
         for (int i = 0; i < contours.size(); i++){
                     approxPolyDP( contours[i], contoursPoly[i], 3, true );
                     int area = contourArea(contours[i]);
-                    if (area < 100000) continue; // 234016
+                    if (area < 10000) continue; // 234016 100000
                     std::cout << "Area: " << area << std::endl;
                     int areaPoly = contourArea(contoursPoly[i]);
                     std::cout << "areaPoly: " << areaPoly << std::endl;
@@ -78,9 +78,9 @@ int main(int, char**) {
         // Combine images
         cvtColor(outputImage, outputImage, COLOR_GRAY2BGR);
         // cvtColor(eroded, eroded, COLOR_GRAY2BGR);
-        cvtColor(dilated, dilated, COLOR_GRAY2BGR);
+        // cvtColor(dilated, dilated, COLOR_GRAY2BGR);
         // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
-        std::vector<cv::Mat> matrices = {src, image_copy, dilated};
+        std::vector<cv::Mat> matrices = {src, image_copy, outputImage};
         cv::hconcat( matrices, mask );
 
         cv::imshow(figureName, mask);
