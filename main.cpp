@@ -5,17 +5,17 @@
 using namespace cv;
 
 void getText(std::string* textPostion, cv::Point2f* centers){
-    std::string temp = (std::string) "Ball center: " + 
-    std::to_string((int)(*centers).x) + 
-    (std::string) ", " + 
-    std::to_string(((int)(*centers).y)); 
-    *textPostion = (cv::String) temp;
-
-    // std::string temp = static_cast<std::string>("Ball center: ") + 
-    // std::to_string(static_cast<int>((*centers).x)) + 
+    // std::string temp = (std::string) "Ball center: " + 
+    // std::to_string((int)(*centers).x) + 
     // (std::string) ", " + 
     // std::to_string(((int)(*centers).y)); 
     // *textPostion = (cv::String) temp;
+
+    std::string temp = static_cast<std::string>("Ball center: ") + 
+    std::to_string(static_cast<int>((*centers).x)) + 
+    static_cast<std::string>(", ") + 
+    std::to_string((static_cast<int>((*centers).y))); 
+    *textPostion = static_cast<cv::String>(temp);
 }
 
 int main(int, char **)
