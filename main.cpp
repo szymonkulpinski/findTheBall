@@ -13,9 +13,14 @@ int main(int, char**) {
         throw std::invalid_argument("No image data, incorrect path!");
     cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
 
-    int hmin = 0, hmax = 13; 
+
+    int hmin = 0, hmax = 9; 
     int smin = 65, smax = 203;
     int vmin = 1, vmax = 203;
+
+    // int hmin = 0, hmax = 13; 
+    // int smin = 65, smax = 203;
+    // int vmin = 1, vmax = 203;
 
     // int hmin = 7, hmax = 71; 
     // int smin = 48, smax = 158;
@@ -56,6 +61,11 @@ int main(int, char**) {
         std::vector<std::vector<cv::Point>> contoursPoly (contours.size());
         for (int i = 0; i < contours.size(); i++){
                     approxPolyDP( contours[i], contoursPoly[i], 3, true );
+                    int area = contourArea(contours[i]);
+                    if (area < 100000) continue; // 234016
+                    std::cout << "Area: " << area << std::endl;
+                    int areaPoly = contourArea(contoursPoly[i]);
+                    std::cout << "areaPoly: " << areaPoly << std::endl;
                     minEnclosingCircle( contoursPoly[i], centers[i], radius[i] );
                     circle( image_copy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3 );
         }
