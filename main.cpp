@@ -22,53 +22,41 @@ int main(int, char**) {
     fileList.push_back("IMG_1362.jpg");
     fileList.push_back("IMG_1363.jpg");
     fileList.push_back("IMG_1364.jpg");
-    std:: cout << __cplusplus << std::endl;
-    std:: cout << "CPP_version" << std::endl; // C++11
-    for (int i = 0; i < fileList.size(); i++)
-    {
-        /* code */
-    
-    
-    // int i = 10;
-    // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
-    // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
-    cv::String imagePath = folderPath + fileList[i];
-    cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
-
-    src = cv::imread(imagePath, cv::IMREAD_COLOR);
-    GaussianBlur(src,blured, Size(11, 11), 11, 11);
-    if (!src.data)
-        throw std::invalid_argument("No image data, incorrect path!");
-    cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
 
 
     int hmin = 0, hmax = 12; 
     int smin = 126, smax = 255;
     int vmin = 1, vmax = 203;
+    cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
-    // lower[6, 126, 1, 0]
-    // upper[11, 255, 255, 0]
+    // std::string figureNameA = (std::string) "Preview" + std::to_string(i);
+    // cv::String figureName = (cv::String) figureNameA;
+    cv::String figureName = "Preview";
+    // namedWindow(figureName, WINDOW_FULLSCREEN);
+    namedWindow(figureName, WINDOW_NORMAL);
+    resizeWindow(figureName, 600,600);
 
-    // int hmin = 0, hmax = 13; 
-    // int smin = 65, smax = 203;
-    // int vmin = 1, vmax = 203;
 
-    // int hmin = 7, hmax = 71; 
-    // int smin = 48, smax = 158;
-    // int vmin = 102, vmax = 255;
+    for (int i = 0; i < fileList.size(); i++)
+    {
+    cv::String imagePath = folderPath + fileList[i];
 
-    // lower[2, 65, 1, 0]
-    // upper[13, 203, 203, 0]
+    src = cv::imread(imagePath, cv::IMREAD_COLOR);
+    if (!src.data)
+        throw std::invalid_argument("No image data, incorrect path!");
+    GaussianBlur(src,blured, Size(11, 11), 11, 11);
+    cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
 
-    std::string figureNameA = (std::string) "Preview" + std::to_string(i);
-    cv::String figureName = (cv::String) figureNameA;
-    namedWindow(figureName, WINDOW_FULLSCREEN);
-    createTrackbar("Hue Min", figureName, &hmin, 255);
-    createTrackbar("Hue Max", figureName, &hmax, 255);
-    createTrackbar("Saturation Min", figureName, &smin, 255);
-    createTrackbar("Saturation Max", figureName, &smax, 255);
-    createTrackbar("Value Min", figureName, &vmin, 255);
-    createTrackbar("Value Max", figureName, &vmax, 255);
+
+
+
+
+    // createTrackbar("Hue Min", figureName, &hmin, 255);
+    // createTrackbar("Hue Max", figureName, &hmax, 255);
+    // createTrackbar("Saturation Min", figureName, &smin, 255);
+    // createTrackbar("Saturation Max", figureName, &smax, 255);
+    // createTrackbar("Value Min", figureName, &vmin, 255);
+    // createTrackbar("Value Max", figureName, &vmax, 255);
 
 // while(true){
 
@@ -122,6 +110,7 @@ int main(int, char**) {
 
         cv::imshow(figureName, mask);
         cv::waitKey(0);
+        // cv::destroyAllWindows();
     // }
     }
     return 0;
