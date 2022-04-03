@@ -1,14 +1,14 @@
-#include <iostream>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <filesystem>
+#include <unistd.h>
 using namespace cv; 
 
 
 
 int main(int, char**) {
 
-    // TODO: Read automatically from directory automatically 
+    // TODO: Read automatically from directory  
     std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
     std::vector<std::string> fileList;
     fileList.push_back("IMG_1354.jpg");
@@ -22,8 +22,8 @@ int main(int, char**) {
     fileList.push_back("IMG_1362.jpg");
     fileList.push_back("IMG_1363.jpg");
     fileList.push_back("IMG_1364.jpg");
-    // std:: cout << __cplusplus << std::endl;
-    // std:: cout << "CPP_version" << std::endl; // C++11
+    std:: cout << __cplusplus << std::endl;
+    std:: cout << "CPP_version" << std::endl; // C++11
     for (int i = 0; i < fileList.size(); i++)
     {
         /* code */
@@ -91,6 +91,7 @@ int main(int, char**) {
         std::vector<cv::Point2f>centers(contours.size());
         std::vector<float>radius(contours.size());
         std::vector<std::vector<cv::Point>> contoursPoly (contours.size());
+        cv::String textPostion;
         for (int i = 0; i < contours.size(); i++){
                     approxPolyDP( contours[i], contoursPoly[i], 3, true );
                     int area = contourArea(contours[i]);
@@ -100,6 +101,11 @@ int main(int, char**) {
                     std::cout << "areaPoly: " << areaPoly << std::endl;
                     minEnclosingCircle( contoursPoly[i], centers[i], radius[i] );
                     circle( image_copy, centers[i], (int)radius[i], Scalar(0, 255, 0), 3 );
+                    // std::string figureNameA = (std::string) "Preview" + std::to_string(i);
+                    textPostion = (cv::String) ((std::string)"Ball center: " + std::to_string((int)centers[i].x) + (std::string)", " + std::to_string((int)centers[i].y)); // TODO: pretify
+                    putText(image_copy, textPostion, Point(40,40), FONT_HERSHEY_PLAIN, 3, Scalar(255, 255, 0),3);
+                    line(image_copy, Point(centers[i].x-20,centers[i].y), Point(centers[i].x+20,centers[i].y),Scalar(255, 255, 0),3);
+                    line(image_copy, Point(centers[i].x,centers[i].y-20), Point(centers[i].x,centers[i].y+20),Scalar(255, 255, 0),3);
         }
 
 
