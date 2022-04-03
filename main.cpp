@@ -4,7 +4,8 @@ using namespace cv;
 
 
 int main(int, char**) {
-    cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
+    // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
+    cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
     src = cv::imread(imagePath, cv::IMREAD_COLOR);
@@ -14,7 +15,7 @@ int main(int, char**) {
     cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
 
 
-    int hmin = 0, hmax = 9; 
+    int hmin = 0, hmax = 12; 
     int smin = 65, smax = 203;
     int vmin = 1, vmax = 203;
 
