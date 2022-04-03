@@ -33,7 +33,9 @@ int main(int, char**) {
     // cv::String figureName = (cv::String) figureNameA;
     cv::String figureName = "Preview";
     // namedWindow(figureName, WINDOW_FULLSCREEN);
+    // namedWindow(figureName, WINDOW_AUTOSIZE);
     namedWindow(figureName, WINDOW_NORMAL);
+    // namedWindow(figureName, WINDOW_KEEPRATIO);
     resizeWindow(figureName, 600,600);
 
 
@@ -46,6 +48,11 @@ int main(int, char**) {
         throw std::invalid_argument("No image data, incorrect path!");
     GaussianBlur(src,blured, Size(11, 11), 11, 11);
     cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
+
+    // if (src.size().width < src.size().height)
+    // {
+    // }
+    
 
 
 
@@ -107,6 +114,7 @@ int main(int, char**) {
         // std::vector<cv::Mat> matrices = {src, outputImage, eroded, dilated};
         std::vector<cv::Mat> matrices = {image_copy, outputImage};
         cv::hconcat( matrices, mask );
+        // resizeWindow(figureName, (int) mask.size().width/2, (int) mask.size().height);
 
         cv::imshow(figureName, mask);
         cv::waitKey(0);
