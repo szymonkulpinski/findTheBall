@@ -8,8 +8,8 @@ using namespace cv;
 
 int main(int, char**) {
 
-    // TODO: Do this automatically 
-    std::string path = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
+    // TODO: Read automatically from directory automatically 
+    std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
     std::vector<std::string> fileList;
     fileList.push_back("IMG_1354.jpg");
     fileList.push_back("IMG_1355.jpg");
@@ -23,9 +23,15 @@ int main(int, char**) {
     fileList.push_back("IMG_1363.jpg");
     fileList.push_back("IMG_1364.jpg");
 
+    for (int i = 0; i < fileList.size(); i++)
+    {
+        /* code */
+    
+    
+
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
-    cv::String imagePath = path + fileList[3];
+    cv::String imagePath = folderPath + fileList[i];
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
     src = cv::imread(imagePath, cv::IMREAD_COLOR);
@@ -50,7 +56,8 @@ int main(int, char**) {
     // lower[2, 65, 1, 0]
     // upper[13, 203, 203, 0]
 
-    cv::String figureName = "Preview";
+    std::string figureNameA = (std::string) "Preview" + std::to_string(i);
+    cv::String figureName = (cv::String) figureNameA;
     namedWindow(figureName, WINDOW_FULLSCREEN);
     createTrackbar("Hue Min", figureName, &hmin, 255);
     createTrackbar("Hue Max", figureName, &hmax, 255);
@@ -59,7 +66,7 @@ int main(int, char**) {
     createTrackbar("Value Min", figureName, &vmin, 255);
     createTrackbar("Value Max", figureName, &vmax, 255);
 
-    while(true){
+    // while(true){
 
         // Thresholding
         cv::Scalar lower (hmin, smin, vmin);
@@ -105,6 +112,7 @@ int main(int, char**) {
 
         cv::imshow(figureName, mask);
         cv::waitKey(0);
+    // }
     }
     return 0;
 }
