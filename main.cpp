@@ -2,19 +2,30 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <filesystem>
-#include "boost/filesystem.hpp"
 using namespace cv; 
 
 
 
 int main(int, char**) {
-    const std::string path = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
-    // for (const auto & entry : fs::directory_iterator(path))
-    //     std::cout << entry.path() << std::endl;
-    std::vector<std::string> m_file_list;
+
+    // TODO: Do this automatically 
+    std::string path = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/";
+    std::vector<std::string> fileList;
+    fileList.push_back("IMG_1354.jpg");
+    fileList.push_back("IMG_1355.jpg");
+    fileList.push_back("IMG_1356.jpg");
+    fileList.push_back("IMG_1357.jpg");
+    fileList.push_back("IMG_1358.jpg");
+    fileList.push_back("IMG_1359.jpg");
+    fileList.push_back("IMG_1360.jpg");
+    fileList.push_back("IMG_1361.jpg");
+    fileList.push_back("IMG_1362.jpg");
+    fileList.push_back("IMG_1363.jpg");
+    fileList.push_back("IMG_1364.jpg");
 
     // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/IMG_1344_test.jpg";
-    cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
+    // cv::String imagePath = "/Users/szymon/Documents/coding/Projects/findTheBall2/Photos BBALL/test/IMG_1356.jpg";
+    cv::String imagePath = path + fileList[3];
     cv::Mat src, blured, imageHSV, outputImage, mask, outputImageShow, eroded, dilated;
 
     src = cv::imread(imagePath, cv::IMREAD_COLOR);
