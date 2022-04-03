@@ -25,17 +25,17 @@ https://user-images.githubusercontent.com/39861049/161453870-5fbd49fa-f95f-4c62-
 
 
 
- [x] Canny Edge detector (standalone doesn't work well) 
+- [x]  Canny Edge detector (standalone doesn't work well) 
  
- [x] HSV Color filtering (works well enough for provided images)
+- [x]  HSV Color filtering (works well enough for provided images)
  
- [ ] SIFT keypoints
+- [ ] SIFT keypoints
  
- [ ] Template matching algorithm
+- [ ]  Template matching algorithm
 
  ### Future TODOs: 
- [ ] Expand to ball tracking
+- [ ]  Expand to ball tracking
  
- [ ] Try out Kalman filter 
+- [ ]  Try out Kalman filter 
 
- [ ] Try out optical flow
+- [ ]  Try out optical flow
