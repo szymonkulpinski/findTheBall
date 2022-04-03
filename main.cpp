@@ -4,17 +4,12 @@
 #include <unistd.h>
 using namespace cv;
 
-void getText(std::string* textPostion, cv::Point2f* centers){
-    // std::string temp = (std::string) "Ball center: " + 
-    // std::to_string((int)(*centers).x) + 
-    // (std::string) ", " + 
-    // std::to_string(((int)(*centers).y)); 
-    // *textPostion = (cv::String) temp;
-
-    std::string temp = static_cast<std::string>("Ball center: ") + 
-    std::to_string(static_cast<int>((*centers).x)) + 
-    static_cast<std::string>(", ") + 
-    std::to_string((static_cast<int>((*centers).y))); 
+void getText(std::string *textPostion, cv::Point2f *centers)
+{
+    std::string temp = static_cast<std::string>("Ball center: ") +
+                       std::to_string(static_cast<int>((*centers).x)) +
+                       static_cast<std::string>(", ") +
+                       std::to_string((static_cast<int>((*centers).y)));
     *textPostion = static_cast<cv::String>(temp);
 }
 
@@ -43,8 +38,7 @@ int main(int, char **)
     namedWindow(figureName, WINDOW_NORMAL);
     resizeWindow(figureName, 600, 600);
 
-
-    int hmin = 0, hmax = 12;  // TODO: what's the best practice: header files, oustisde of main as params? 
+    int hmin = 0, hmax = 12; // TODO: what's the best practice: header files, oustisde of main as params?
     int smin = 126, smax = 255;
     int vmin = 1, vmax = 203;
     cv::Scalar lower(hmin, smin, vmin);
@@ -61,7 +55,6 @@ int main(int, char **)
             throw std::invalid_argument("No image data, incorrect path!");
         srcCopy = src.clone();
 
-
         // Get contours
         GaussianBlur(src, blured, Size(11, 11), 11, 11);
         cv::cvtColor(blured, imageHSV, cv::COLOR_BGR2HSV);
@@ -73,7 +66,7 @@ int main(int, char **)
         std::vector<float> radius(contours.size());
 
         for (int i = 0; i < contours.size(); i++)
-        {   
+        {
             // Filter out too small objects (noise)
             area = contourArea(contours[i]);
             if (area < 50000)
