@@ -13,6 +13,7 @@ https://user-images.githubusercontent.com/39861049/161453870-5fbd49fa-f95f-4c62-
 
 ## Prerequesitions
 * [OpenCV library](https://opencv.org/) (tested for 4.5.5 on macOS)
+* [CMake](https://cmake.org/)
 
 
 
