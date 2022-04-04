@@ -8,6 +8,7 @@ static const int vmin = 1, vmax = 203;
 static const cv::Scalar lower(hmin, smin, vmin);
 static const cv::Scalar upper(hmax, smax, vmax);
 static const int minBallArea = 50000;
+static const std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/images/test/";
 
 
 cv::String getDescription(const cv::Point2f& centers)
@@ -27,7 +28,6 @@ int main(int, char **)
 
     // Get Files
     // TODO: Read automatically from directory use boost or C++17 (caused so far some weird problems on the M1 Mac)
-    std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/images/test/";
     std::vector<std::string> fileList;
     fileList.reserve(11);
     fileList.push_back("IMG_1354.jpg");
