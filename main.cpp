@@ -2,6 +2,7 @@
 #include <iostream>
 
 
+
 cv::String getDescription(cv::Point2f& centers)
 {
     std::string temp = static_cast<std::string>("Ball center: ") +
@@ -72,7 +73,11 @@ int main(int, char **)
             // Draw on image
             cv::minEnclosingCircle(contours[i], centers[i], radius[i]);
             cv::circle(srcCopy, centers[i], (int)radius[i], cv::Scalar(0, 255, 0), 3);
+<<<<<<< HEAD
             cv::putText(srcCopy, getDescription(centers[i]), cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
+=======
+            cv::putText(srcCopy, getDescription(&centers[i]), cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
+>>>>>>> df6636abb8062e7ae1cf94bcd6096e65e14377cf
             cv::line(srcCopy, cv::Point(centers[i].x - 20, centers[i].y), cv::Point(centers[i].x + 20, centers[i].y), cv::Scalar(255, 255, 0), 3);
             cv::line(srcCopy, cv::Point(centers[i].x, centers[i].y - 20), cv::Point(centers[i].x, centers[i].y + 20), cv::Scalar(255, 255, 0), 3);
         }
