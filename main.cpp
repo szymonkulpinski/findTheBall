@@ -1,7 +1,4 @@
 #include <opencv2/opencv.hpp>
-#include <iostream>
-
-
 
 cv::String getDescription(const cv::Point2f& centers)
 {
@@ -14,12 +11,24 @@ cv::String getDescription(const cv::Point2f& centers)
 
 int main(int, char **)
 {
+    // TODO: what's the best practice: header files, oustisde of main as global params?
     cv::Mat src, blured, srcCopy, imageHSV, outputImage, mask;
+    cv::Scalar greenColor = cv::Scalar(0, 255, 0);
+    cv::Scalar turquoiseColor = cv::Scalar(255, 255, 0);
+    int hmin = 0, hmax = 12; 
+    int smin = 126, smax = 255;
+    int vmin = 1, vmax = 203;
+    cv::Scalar lower(hmin, smin, vmin);
+    cv::Scalar upper(hmax, smax, vmax);
+    int area;
+    int minBallArea = 50000;
+    std::vector<std::vector<cv::Point>> contours;
 
     // Get Files
-    // TODO: Read automatically from directory use boost or C++17
+    // TODO: Read automatically from directory use boost or C++17 (caused so far some weird problems on the M1 Mac)
     std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/images/test/";
     std::vector<std::string> fileList;
+    fileList.reserve(11);
     fileList.push_back("IMG_1354.jpg");
     fileList.push_back("IMG_1355.jpg");
     fileList.push_back("IMG_1356.jpg");
@@ -36,14 +45,6 @@ int main(int, char **)
     cv::String figureName = "Preview";
     cv::namedWindow(figureName, cv::WINDOW_NORMAL);
     cv::resizeWindow(figureName, 600, 600);
-
-    int hmin = 0, hmax = 12; // TODO: what's the best practice: header files, oustisde of main as params?
-    int smin = 126, smax = 255;
-    int vmin = 1, vmax = 203;
-    cv::Scalar lower(hmin, smin, vmin);
-    cv::Scalar upper(hmax, smax, vmax);
-    int area;
-    std::vector<std::vector<cv::Point>> contours;
 
     for (int i = 0; i < fileList.size(); i++)
     {
@@ -67,15 +68,15 @@ int main(int, char **)
         {
             // Filter out too small objects (noise)
             area = contourArea(contours[i]);
-            if (area < 50000)
+            if (area < minBallArea)
                 continue;
 
             // Draw on image
             cv::minEnclosingCircle(contours[i], centers[i], radius[i]);
-            cv::circle(srcCopy, centers[i], (int)radius[i], cv::Scalar(0, 255, 0), 3);
-            cv::putText(srcCopy, getDescription(centers[i]), cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
-            cv::line(srcCopy, cv::Point(centers[i].x - 20, centers[i].y), cv::Point(centers[i].x + 20, centers[i].y), cv::Scalar(255, 255, 0), 3);
-            cv::line(srcCopy, cv::Point(centers[i].x, centers[i].y - 20), cv::Point(centers[i].x, centers[i].y + 20), cv::Scalar(255, 255, 0), 3);
+            cv::circle(srcCopy, centers[i], (int)radius[i], greenColor, 3);
+            cv::putText(srcCopy, getDescription(centers[i]), cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, turquoiseColor, 3);
+            cv::line(srcCopy, cv::Point(centers[i].x - 20, centers[i].y), cv::Point(centers[i].x + 20, centers[i].y), turquoiseColor, 3);
+            cv::line(srcCopy, cv::Point(centers[i].x, centers[i].y - 20), cv::Point(centers[i].x, centers[i].y + 20), turquoiseColor, 3);
         }
         contours.clear();
 
