@@ -9,11 +9,11 @@ include(CTest)
 enable_testing()
 
 find_package(OpenCV REQUIRED)
-include_directories( ${OpenCV_INCLUDE_DIRS}  )
+include_directories( ${OpenCV_INCLUDE_DIRS} ${YOUR_DIRECTORY}/include/main.hpp )
 
 
 
-add_executable(findTheBall main.cpp)
+add_executable(findTheBall src/main.cpp)
 target_link_libraries(findTheBall  ${OpenCV_LIBS})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
