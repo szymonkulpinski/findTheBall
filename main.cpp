@@ -1,5 +1,15 @@
 #include <opencv2/opencv.hpp>
 
+static const cv::Scalar greenColor = cv::Scalar(0, 255, 0);
+static const cv::Scalar turquoiseColor = cv::Scalar(255, 255, 0);
+static const int hmin = 0, hmax = 12; 
+static const int smin = 126, smax = 255;
+static const int vmin = 1, vmax = 203;
+static const cv::Scalar lower(hmin, smin, vmin);
+static const cv::Scalar upper(hmax, smax, vmax);
+static const int minBallArea = 50000;
+
+
 cv::String getDescription(const cv::Point2f& centers)
 {
     std::string temp = static_cast<std::string>("Ball center: ") +
@@ -10,18 +20,9 @@ cv::String getDescription(const cv::Point2f& centers)
 }
 
 int main(int, char **)
-{
-    // TODO: what's the best practice: header files, oustisde of main as global params?
-    cv::Mat src, blured, srcCopy, imageHSV, outputImage, mask;
-    cv::Scalar greenColor = cv::Scalar(0, 255, 0);
-    cv::Scalar turquoiseColor = cv::Scalar(255, 255, 0);
-    int hmin = 0, hmax = 12; 
-    int smin = 126, smax = 255;
-    int vmin = 1, vmax = 203;
-    cv::Scalar lower(hmin, smin, vmin);
-    cv::Scalar upper(hmax, smax, vmax);
+{   
     int area;
-    int minBallArea = 50000;
+    cv::Mat src, blured, srcCopy, imageHSV, outputImage, mask;
     std::vector<std::vector<cv::Point>> contours;
 
     // Get Files
