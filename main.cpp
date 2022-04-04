@@ -2,13 +2,13 @@
 #include <iostream>
 
 
-void getDescription(std::string *textPostion, cv::Point2f *centers)
+cv::String getDescription(cv::Point2f& centers)
 {
     std::string temp = static_cast<std::string>("Ball center: ") +
-                       std::to_string(static_cast<int>((*centers).x)) +
+                       std::to_string(static_cast<int>(centers.x)) +
                        static_cast<std::string>(", ") +
-                       std::to_string((static_cast<int>((*centers).y)));
-    *textPostion = static_cast<cv::String>(temp);
+                       std::to_string((static_cast<int>(centers.y)));
+    return static_cast<cv::String>(temp);
 }
 
 int main(int, char **)
@@ -42,7 +42,6 @@ int main(int, char **)
     cv::Scalar lower(hmin, smin, vmin);
     cv::Scalar upper(hmax, smax, vmax);
     int area;
-    cv::String textPostion;
     std::vector<std::vector<cv::Point>> contours;
 
     for (int i = 0; i < fileList.size(); i++)
@@ -73,8 +72,7 @@ int main(int, char **)
             // Draw on image
             cv::minEnclosingCircle(contours[i], centers[i], radius[i]);
             cv::circle(srcCopy, centers[i], (int)radius[i], cv::Scalar(0, 255, 0), 3);
-            getDescription(&textPostion, &centers[i]);
-            cv::putText(srcCopy, textPostion, cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
+            cv::putText(srcCopy, getDescription(centers[i]), cv::Point(40, 40), cv::FONT_HERSHEY_PLAIN, 3, cv::Scalar(255, 255, 0), 3);
             cv::line(srcCopy, cv::Point(centers[i].x - 20, centers[i].y), cv::Point(centers[i].x + 20, centers[i].y), cv::Scalar(255, 255, 0), 3);
             cv::line(srcCopy, cv::Point(centers[i].x, centers[i].y - 20), cv::Point(centers[i].x, centers[i].y + 20), cv::Scalar(255, 255, 0), 3);
         }
