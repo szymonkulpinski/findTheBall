@@ -1,13 +1,5 @@
 #include <opencv2/opencv.hpp>
 
-static const cv::Scalar greenColor = cv::Scalar(0, 255, 0);
-static const cv::Scalar turquoiseColor = cv::Scalar(255, 255, 0);
-static const int hmin = 0, hmax = 12; 
-static const int smin = 126, smax = 255;
-static const int vmin = 1, vmax = 203;
-static const cv::Scalar lower(hmin, smin, vmin);
-static const cv::Scalar upper(hmax, smax, vmax);
-static const int minBallArea = 50000;
 static const std::string folderPath = "/Users/szymon/Documents/coding/Projects/findTheBall2/images/test/";
 
 
@@ -25,6 +17,15 @@ int main(int, char **)
     int area;
     cv::Mat src, blured, srcCopy, imageHSV, outputImage, mask;
     std::vector<std::vector<cv::Point>> contours;
+
+    const cv::Scalar greenColor = cv::Scalar(0, 255, 0);
+    const cv::Scalar turquoiseColor = cv::Scalar(255, 255, 0);
+    const int hmin = 0, hmax = 12; 
+    const int smin = 126, smax = 255;
+    const int vmin = 1, vmax = 203;
+    const cv::Scalar lower(hmin, smin, vmin);
+    const cv::Scalar upper(hmax, smax, vmax);
+    const int minBallArea = 50000;
 
     // Get Files
     // TODO: Read automatically from directory use boost or C++17 (caused so far some weird problems on the M1 Mac)
