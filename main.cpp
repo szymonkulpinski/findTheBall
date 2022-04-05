@@ -31,17 +31,17 @@ int main(int, char **)
     // TODO: Read automatically from directory use boost or C++17 (caused so far some weird problems on the M1 Mac)
     std::vector<std::string> fileList;
     fileList.reserve(11);
-    fileList.push_back("IMG_1354.jpg");
-    fileList.push_back("IMG_1355.jpg");
-    fileList.push_back("IMG_1356.jpg");
-    fileList.push_back("IMG_1357.jpg");
-    fileList.push_back("IMG_1358.jpg");
-    fileList.push_back("IMG_1359.jpg");
-    fileList.push_back("IMG_1360.jpg");
-    fileList.push_back("IMG_1361.jpg");
-    fileList.push_back("IMG_1362.jpg");
-    fileList.push_back("IMG_1363.jpg");
-    fileList.push_back("IMG_1364.jpg");
+    fileList.emplace_back("IMG_1354.jpg");
+    fileList.emplace_back("IMG_1355.jpg");
+    fileList.emplace_back("IMG_1356.jpg");
+    fileList.emplace_back("IMG_1357.jpg");
+    fileList.emplace_back("IMG_1358.jpg");
+    fileList.emplace_back("IMG_1359.jpg");
+    fileList.emplace_back("IMG_1360.jpg");
+    fileList.emplace_back("IMG_1361.jpg");
+    fileList.emplace_back("IMG_1362.jpg");
+    fileList.emplace_back("IMG_1363.jpg");
+    fileList.emplace_back("IMG_1364.jpg");
 
     // Create Window
     cv::String figureName = "Preview";
